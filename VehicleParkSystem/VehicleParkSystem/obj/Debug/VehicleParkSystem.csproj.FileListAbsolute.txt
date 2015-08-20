@@ -1,0 +1,10 @@
+C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\VehicleParkSystem.exe.config
+C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\VehicleParkSystem\bin\Debug\VehicleParkSystem.exe.config
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\bin\Debug\VehicleParkSystem.exe.config
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\obj\Debug\VehicleParkSystem.csprojResolveAssemblyReference.cache
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\bin\Debug\VehicleParkSystem.exe
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\bin\Debug\VehicleParkSystem.pdb
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\bin\Debug\PowerCollections.dll
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\bin\Debug\PowerCollections.xml
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\obj\Debug\VehicleParkSystem.exe
+C:\Users\Stanislav\Desktop\Vehicle-park-system\VehicleParkSystem\VehicleParkSystem\obj\Debug\VehicleParkSystem.pdb
