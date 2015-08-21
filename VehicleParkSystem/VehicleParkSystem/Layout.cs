@@ -8,19 +8,49 @@ namespace VehicleParkSystem
 {
     class Layout
     {
-        public int sectors;
-        public int places_sec;
+        private int numberOfSectors;
+        private int placesPerSector;
         public Layout(int numberOfSectors, int placesPerSector)
         {
-            if (numberOfSectors <= 0)
+            
+               
+                this.NumberOfSectors = numberOfSectors;
+            
+        
+                this.PlacesPerSector = placesPerSector;
+            
+        }
+
+        public int NumberOfSectors
+        {
+            get { return this.numberOfSectors; }
+
+            set
             {
-                throw new DivideByZeroException("The number of sectors must be positive.");
-                sectors = numberOfSectors;
+                if (value<=0)
+                {
+                    throw new DivideByZeroException("The number of sectors must be positive.");
+                }
+                this.numberOfSectors = value;
             }
-            if (placesPerSector <= 0)
+        }
+
+        public int PlacesPerSector
+        {
+            get
             {
-                throw new DivideByZeroException("The number of places per sector must be positive.");
-                places_sec = placesPerSector;
+                return this.placesPerSector;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new DivideByZeroException("The number of places per sector must be positive.");
+                }
+                else
+                {
+                    this.placesPerSector = value;
+                }
             }
         }
     }

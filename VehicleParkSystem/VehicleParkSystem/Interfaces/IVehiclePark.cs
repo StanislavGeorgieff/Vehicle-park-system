@@ -1,4 +1,5 @@
 ﻿using System;
+using VehicleParkSystem.Models;
 
 
 namespace VehicleParkSystem.Interfaces
@@ -8,7 +9,7 @@ namespace VehicleParkSystem.Interfaces
         // TODO: Documentar esse método
         string InsertCar(Car car, int sector, int placeNumber, DateTime startTime);
         // TODO: Documentar esse método
-        string InsertMotorbike(Moto motorbike, int sector, int placeNumber, DateTime startTime);
+        string InsertMotorbike(Motorbike motorbike, int sector, int placeNumber, DateTime startTime);
         // TODO: Documentar esse método
         string InsertTruck(Truck truck, int sector, int placeNumber, DateTime startTime);
         // TODO: Documentar esse método

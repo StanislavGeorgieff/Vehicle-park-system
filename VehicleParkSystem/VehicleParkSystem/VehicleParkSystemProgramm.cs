@@ -1,7 +1,5 @@
 ﻿
-using System.Globalization;
-using System.Threading;
-using VehicleParkSystem;
+using VehicleParkSystem.Execution;
 
 namespace VehicleParkSystem
 {
@@ -9,7 +7,10 @@ namespace VehicleParkSystem
     {
         private static void Main()
         {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            
             var engine = new Engine();
             engine.Run();
         }

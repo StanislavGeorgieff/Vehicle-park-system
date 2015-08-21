@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using VehicleParkSystem.Interfaces;
 
-namespace VehicleParkSystem
+namespace VehicleParkSystem.Execution
 {
     public class Command : ICommand
     {
-        public Command(string str)
+        public Command(string commandLine)
         {
-            this.Name = str.Substring(0, str.IndexOf(' '));
-            this.Parameters = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(str.Substring(str.IndexOf(' ') + 1));
+            this.Name = commandLine.Substring(0, commandLine.IndexOf(' '));
+            this.Parameters = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(commandLine.Substring(commandLine.IndexOf(' ') + 1));
         }
         public string Name { get; set; }
         public IDictionary<string, string> Parameters { get; set; }

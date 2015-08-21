@@ -1,9 +1,8 @@
 ﻿using System;
-using VehicleParkSystem;
-using VehicleParkSystem;
+using System.Runtime.InteropServices;
 using VehicleParkSystem.Interfaces;
 
-namespace VehicleParkSystem
+namespace VehicleParkSystem.Execution
 {
     class Engine : IEngine
     {
@@ -23,19 +22,21 @@ namespace VehicleParkSystem
             while (true)
             {
                 string commandLine = Console.ReadLine();
-                commandLine.Trim();
-              
+
                 if (!string.IsNullOrEmpty(commandLine))
+                {
                     try
                     {
+                        commandLine = commandLine.Trim();
                         var command = new Command(commandLine);
                         string commandResult = dispatcher.Execution(command);
                         Console.WriteLine(commandResult);
                     }
-                    catch (Exception ex)
+                    catch (Exception ex )
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.Message, "Invalid command");
                     }
+                }
             }
         }
     }

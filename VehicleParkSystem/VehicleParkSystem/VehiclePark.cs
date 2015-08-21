@@ -2,8 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Text.RegularExpressions;
 using VehicleParkSystem;
 using VehicleParkSystem.Interfaces;
+using VehicleParkSystem.Models;
 using Wintellect.PowerCollections;
 
 namespace VehicleParkSystem
@@ -26,173 +29,187 @@ namespace VehicleParkSystem
             data = new Data(numberOfSectors);
         }
 
-        public string InsertCar(Car carro, int s, int p, DateTime t)
+        //Car car, int sector, int placeNumber, DateTime startTime
+        public string InsertCar(Car car, int sector, int placeNumber, DateTime startTime)
         {
-            if (s > layout.sectors)
+            if (sector > layout.NumberOfSectors)
             {
-                return string.Format("There is no sector {0} in the park", s);
+                return string.Format("There is no sector {0} in the park", sector);
             }
-            if (p > layout.places_sec)
+            if (placeNumber > layout.PlacesPerSector)
             {
-                return string.Format("There is no place {0} in sector {1}", p, s);
+                return string.Format("There is no place {0} in sector {1}", placeNumber, sector);
             }
-            if (data.park.ContainsKey(string.Format("({0},{1})", s, p)))
+            if (data.VehicleByLocation.ContainsKey(string.Format("({0},{1})", sector, placeNumber)))
             {
-                return string.Format("The place ({0},{1}) is occupied", s, p);
+                return string.Format("The place ({0},{1}) is occupied", sector, placeNumber);
             }
-            if (data.números.ContainsKey(carro.LicensePlate))
+            if (data.VehicleByLicensePlate.ContainsKey(car.LicensePlate))
             {
-                return string.Format("There is already a vehicle with license plate {0} in the park", carro.LicensePlate);
+                return string.Format("There is already a vehicle with license plate {0} in the park", car.LicensePlate);
             }
-            data.carros_inpark[carro] = string.Format("({0},{1})", s, p);
-            ;
-            data.park[string.Format("({0},{1})", s, p)] = carro;
-            data.números[carro.LicensePlate] = carro;
-            data.d[carro] = t;
-            data.ow[carro.Owner].Add(carro);
-            data.count[s - 1]--;
-            return string.Format("{0} parked successfully at place ({1},{2})", carro.GetType().Name, s, p);
+            data.VehicleInPark[car] = string.Format("({0},{1})", sector, placeNumber);
+            data.VehicleByLocation[string.Format("({0},{1})", sector, placeNumber)] = car;
+            data.VehicleByLicensePlate[car.LicensePlate] = car;
+            data.VehicleByStartTime[car] = startTime;
+            data.VehcileByOwner[car.Owner].Add(car);
+            data.sectors[sector - 1]++;
+            return string.Format("{0} parked successfully at place ({1},{2})", car.GetType().Name, sector, placeNumber);
         }
 
-        public string InsertMotorbike(Moto moto, int s, int p, DateTime t)
+        public string InsertMotorbike(Motorbike motorbike, int sector, int placeNumber, DateTime startTime)
         {
-            if (s > layout.sectors)
+            //Car car, int sector, int placeNumber, DateTime startTime
+            if (sector > layout.NumberOfSectors)
             {
-                return string.Format("There is no sector {0} in the park", s);
+                return string.Format("There is no sector {0} in the park", sector);
             }
-            if (p > layout.places_sec)
+            if (placeNumber > layout.PlacesPerSector)
             {
-                return string.Format("There is no place {0} in sector {1}", p, s);
+                return string.Format("There is no place {0} in sector {1}", placeNumber, sector);
             }
-            if (data.park.ContainsKey(string.Format("({0},{1})", s, p)))
+            if (data.VehicleByLocation.ContainsKey(string.Format("({0},{1})", sector, placeNumber)))
             {
-                return string.Format("The place ({0},{1}) is occupied", s, p);
+                return string.Format("The place ({0},{1}) is occupied", sector, placeNumber);
             }
-            if (data.números.ContainsKey(moto.LicensePlate))
+            if (data.VehicleByLicensePlate.ContainsKey(motorbike.LicensePlate))
             {
-                return string.Format("There is already a vehicle with license plate {0} in the park", moto.LicensePlate);
+                return string.Format("There is already a vehicle with license plate {0} in the park", motorbike.LicensePlate);
             }
-            data.carros_inpark[moto] = string.Format("({0},{1})", s, p);
-            data.park[string.Format("({0},{1})", s, p)] = moto;
-            data.números[moto.LicensePlate] = moto;
-            data.d[moto] = t;
-            data.ow[moto.Owner].Add(moto);
-            data.count[s - 1]++;
-            return string.Format("{0} parked successfully at place ({1},{2})", moto.GetType().Name, s, p);
+            data.VehicleInPark[motorbike] = string.Format("({0},{1})", sector, placeNumber);
+            data.VehicleByLocation[string.Format("({0},{1})", sector, placeNumber)] = motorbike;
+            data.VehicleByLicensePlate[motorbike.LicensePlate] = motorbike;
+            data.VehicleByStartTime[motorbike] = startTime;
+            data.VehcileByOwner[motorbike.Owner].Add(motorbike);
+            data.sectors[sector - 1]++;
+            return string.Format("{0} parked successfully at place ({1},{2})", motorbike.GetType().Name, sector, placeNumber);
         }
 
-        public string InsertTruck(Truck caminhão, int s, int p, DateTime t)
+        public string InsertTruck(Truck truck, int sector, int placeNumber, DateTime startTime)
         {
-            if (s > layout.sectors)
+            if (sector > layout.NumberOfSectors)
             {
-                return string.Format("There is no sector {0} in the park", s);
+                return string.Format("There is no sector {0} in the park", sector);
             }
-            if (p > layout.places_sec)
+            if (placeNumber > layout.PlacesPerSector)
             {
-                return string.Format("There is no place {0} in sector {1}", p, s);
+                return string.Format("There is no place {0} in sector {1}", placeNumber, sector);
             }
-            if (data.park.ContainsKey(string.Format("({0},{1})", s, p)))
+            if (data.VehicleByLocation.ContainsKey(string.Format("({0},{1})", sector, placeNumber)))
             {
-                return string.Format("The place ({0},{1}) is occupied", s, p);
+                return string.Format("The place ({0},{1}) is occupied", sector, placeNumber);
             }
-            if (data.números.ContainsKey(caminhão.LicensePlate))
+            if (data.VehicleByLicensePlate.ContainsKey(truck.LicensePlate))
             {
                 return string.Format("There is already a vehicle with license plate {0} in the park",
-                    caminhão.LicensePlate);
+                    truck.LicensePlate);
             }
-            data.carros_inpark[caminhão] = string.Format("({0},{1})", s, p);
-            data.park[string.Format("({0},{1})", s, p)] = caminhão;
-            data.números[caminhão.LicensePlate] = caminhão;
-            data.d[caminhão] = t;
-            data.ow[caminhão.Owner].Add(caminhão);
-            return string.Format("{0} parked successfully at place ({1},{2})", caminhão.GetType().Name, s, p);
+            data.VehicleInPark[truck] = string.Format("({0},{1})", sector, placeNumber);
+            data.VehicleByLocation[string.Format("({0},{1})", sector, placeNumber)] = truck;
+            data.VehicleByLicensePlate[truck.LicensePlate] = truck;
+            data.VehicleByStartTime[truck] = startTime;
+            data.VehcileByOwner[truck.Owner].Add(truck);
+            data.sectors[sector - 1]++;
+            return string.Format("{0} parked successfully at place ({1},{2})", truck.GetType().Name, sector, placeNumber);
         }
 
-        public string ExitVehicle(string l_pl, DateTime end, decimal money)
+        public string ExitVehicle(string licensePlate, DateTime endTime, decimal amountPaid)
         {
-            var vehicle = (data.números.ContainsKey(l_pl)) ? data.números[l_pl] : null;
+            var vehicle = (data.VehicleByLicensePlate.ContainsKey(licensePlate)) ? data.VehicleByLicensePlate[licensePlate] : null;
             if (vehicle == null)
-                return string.Format("There is no vehicle with license plate {0} in the park", l_pl);
+            {
+                return string.Format("There is no vehicle with license plate {0} in the park", licensePlate);
+            }
 
-            var start = data.d[vehicle];
-            int endd = (int)Math.Round((end - start).TotalHours);
+         
+
+            var start = data.VehicleByStartTime[vehicle];
+            int end = (int)Math.Round((endTime - start).TotalHours);
             var ticket = new StringBuilder();
+            decimal regularRate = vehicle.ReservedHours * vehicle.RegularRate;
+            decimal overtimeRate = end > vehicle.ReservedHours ? (end - vehicle.ReservedHours) * vehicle.OvertimeRate : 0;
+            decimal total = regularRate + overtimeRate;
             ticket.AppendLine(new string('*', 20))
-                .AppendFormat("{0}", vehicle.ToString())
-                .AppendLine()
-                .AppendFormat("at place {0}", data.carros_inpark[vehicle])
-                .AppendLine()
-                .AppendFormat("Rate: ${0:F2}", (vehicle.ReservedHours * vehicle.RegularRate))
-                .AppendLine()
-                .AppendFormat("Overtime rate: ${0:F2}",
-                    (endd > vehicle.ReservedHours ? (endd - vehicle.ReservedHours) * vehicle.OvertimeRate : 0))
-                .AppendLine()
+                .AppendFormat("{0} [{1}], owned by {2}", vehicle.GetType().Name, vehicle.LicensePlate, vehicle.Owner).AppendLine()
+                .AppendFormat("at place {0}", data.VehicleInPark[vehicle]).AppendLine()
+                .AppendFormat("Rate: ${0:F2}", regularRate).AppendLine()
+                .AppendFormat("Overtime rate: ${0:F2}", overtimeRate).AppendLine()
                 .AppendLine(new string('-', 20))
-                .AppendFormat("Total: ${0:F2}",
-                    (vehicle.ReservedHours * vehicle.RegularRate +
-                     (endd > vehicle.ReservedHours ? (endd - vehicle.ReservedHours) * vehicle.OvertimeRate : 0)))
+                .AppendFormat("Total: ${0:F2}", regularRate + overtimeRate).AppendLine()
+                .AppendFormat("Paid: ${0:F2}", amountPaid)
                 .AppendLine()
-                .AppendFormat("Paid: ${0:F2}", money)
-                .AppendLine()
-                .AppendFormat("Change: ${0:F2}",
-                    money -
-                    ((vehicle.ReservedHours * vehicle.RegularRate) +
-                     (endd > vehicle.ReservedHours ? (endd - vehicle.ReservedHours) * vehicle.OvertimeRate : 0)))
-                .AppendLine()
+                .AppendFormat("Change: ${0:F2}", amountPaid - total).AppendLine()
                 .Append(new string('*', 20));
-            //DELETE
-            int sector =
-                int.Parse(
-                    data.carros_inpark[vehicle].Split(new[] { "(", ",", ")" }, StringSplitOptions.RemoveEmptyEntries)[0]);
-            data.park.Remove(data.carros_inpark[vehicle]);
-            data.carros_inpark.Remove(vehicle);
-            data.números.Remove(vehicle.LicensePlate);
-            data.d.Remove(vehicle);
-            data.ow.Remove(vehicle.Owner, vehicle);
-            data.count[sector - 1]--;
-            //END OF DELETE
+          // data.VehicleInPark.Remove(vehicle);
+            data.VehicleByLocation.Remove(data.VehicleInPark[vehicle]);
+            data.VehicleByLicensePlate.Remove(vehicle.LicensePlate);
+            data.VehicleByStartTime.Remove(vehicle);
+            data.VehcileByOwner[vehicle.Owner].Remove(vehicle);
+            string sector = data.VehicleInPark[vehicle];
+            string sect = sector[1].ToString();
+            int sectorInt = int.Parse(sect);
+            data.sectors[sectorInt-1]--;
+
+
+            //bottleneck
+
+
             return ticket.ToString();
+
+
         }
 
         public string GetStatus()
         {
-            var places = data.count.Select(
-                (sssss, iiiii) => string.Format
-                    ("Sector {0}: {1} / {2} ({2}% full)", iiiii + 1, sssss, layout.places_sec,
-                        Math.Round((double)sssss / layout.places_sec * 100)));
+            //Sector 1: 0 / 5 (0% full)
 
-            return string.Join(Environment.NewLine, places);
+            var sectors = data.sectors.Select((occupancy, sector) => string.Format
+                    ("Sector {0}: {1} / {2} ({3}% full)", sector + 1, occupancy, layout.PlacesPerSector,
+                       Math.Round((double)occupancy / layout.PlacesPerSector * 100)
+                       ));
+
+
+            return string.Join(Environment.NewLine, sectors);
         }
 
-        public string FindVehicle(string l_pl)
+        public string FindVehicle(string licensePlate)
         {
-            var vehicle = (data.números.ContainsKey(l_pl)) ? data.números[l_pl] : null;
+            var vehicle = data.VehicleByLicensePlate.ContainsKey(licensePlate) ? data.VehicleByLicensePlate[licensePlate] : null;
             if (vehicle == null)
             {
-                return string.Format("There is no vehicle with license plate {0} in the park", l_pl);
+                return string.Format("There is no vehicle with license plate {0} in the park", licensePlate);
+
             }
             else
             {
-                return Input(new[] { vehicle });
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} [{1}], owned by {2}", vehicle.GetType().Name, vehicle.LicensePlate, vehicle.Owner).AppendLine();
+                sb.AppendFormat("Parked at {0}", data.VehicleInPark[vehicle]).AppendLine();
+                return sb.ToString();
+
             }
         }
 
         public string FindVehiclesByOwner(string owner)
         {
-            if (!data.park.Values.Where(v => v.Owner == owner).Any())
+            if (!data.VehicleByLocation.Values.Where(v => v.Owner == owner).Any())
             {
                 return string.Format("No vehicles by {0}", owner);
             }
 
             else
             {
-                var found = data.park.Values.ToList();
-                var res = found;
-                foreach (var f in found)
+                //bottleneck diferent data for serching.
+                StringBuilder sb = new StringBuilder();
+                var foundVehicles = data.VehcileByOwner[owner];
+                foreach (var vehicle in foundVehicles)
                 {
-                    res = res.Where(v => v.Owner == owner).ToList();
+
+                    sb.AppendFormat("{0} [{1}], owned by {2}", vehicle.GetType().Name, vehicle.LicensePlate, vehicle.Owner).AppendLine();
+                    sb.AppendFormat("Parked at {0}", data.VehicleInPark[vehicle]).AppendLine();
                 }
-                return string.Join(Environment.NewLine, Input(res));
+                return sb.ToString();
+
             }
         }
 
@@ -201,13 +218,10 @@ namespace VehicleParkSystem
             return string.Join
                 (Environment.NewLine, cars.Select
                     (vehicle => string.Format("{0}{1}Parked at {2}",
-                        vehicle.ToString(), Environment.NewLine, data.carros_inpark[vehicle])));
+                        vehicle.ToString(), Environment.NewLine, data.VehicleInPark[vehicle])));
         }
 
 
 
     }
 }
-
-
-
