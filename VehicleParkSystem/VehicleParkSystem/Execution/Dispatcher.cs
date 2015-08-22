@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
 using VehicleParkSystem.Interfaces;
 using VehicleParkSystem;
@@ -36,7 +37,7 @@ namespace VehicleParkSystem
                         }
 
                         this.VehiclePark = new VehiclePark(iniciatedSectors, initiatedPlacesPerSector);
-                        return "Vehicle park created";
+                        return "Vehicle park created"; break;
                     }
                 case "Park":
                     {
@@ -44,64 +45,78 @@ namespace VehicleParkSystem
                         {
                             case "car":
                                 {
-                                    return
-                                        VehiclePark.InsertCar(
-                                            new Car(command.Parameters["licensePlate"],
-                                                    command.Parameters["owner"],
-                                          int.Parse(command.Parameters["hours"])),
-                                          int.Parse(command.Parameters["sector"]),
-                                          int.Parse(command.Parameters["place"]),
-                                     DateTime.Parse(command.Parameters["time"], null,System.Globalization.DateTimeStyles.RoundtripKind)); //why round trip kind??
+                                    return this.ExecuteParkCar(command); break;
                                 }
                             case "motorbike":
-                                {//motorbike, int sector, int placeNumber, DateTime startTime
-                                    return
-                                        VehiclePark.InsertMotorbike(
-                                             new Motorbike(command.Parameters["licensePlate"],
-                                                    command.Parameters["owner"],
-                                          int.Parse(command.Parameters["hours"])), 
-                                          int.Parse(command.Parameters["sector"]),
-                                          int.Parse(command.Parameters["place"]),
-                                     DateTime.Parse(command.Parameters["time"], null, System.Globalization.DateTimeStyles.RoundtripKind));
-                                    //stack overflow says this
+                                {
+                                    return ExecuteParkMotorbike(command); break;
+                                   
                                 }
                             case "truck":
                                 {
-                                    return
-                                        VehiclePark.InsertTruck(
-                                            new Truck(command.Parameters["licensePlate"],
-                                                command.Parameters["owner"], int.Parse(command.Parameters["hours"])),
-                                            int.Parse(command.Parameters["sector"]), int.Parse(command.Parameters["place"]),
-                                            DateTime.Parse(command.Parameters["time"], null,
-                                                System.Globalization.DateTimeStyles.RoundtripKind)); //I wanna know
+                                    return ExecuteParkTruck(command); break;
                                 }
                             default:
                                 throw new IndexOutOfRangeException("Invalid command inside.");
                         }
+
+                        break;
                     }
                 case "Exit":
                     {
                         return VehiclePark.ExitVehicle(
                             command.Parameters["licensePlate"],
                            DateTime.Parse(command.Parameters["time"], null, System.Globalization.DateTimeStyles.RoundtripKind),
-                            decimal.Parse(command.Parameters["paid"]));
+                            decimal.Parse(command.Parameters["paid"])); break;
                     }
                 case "Status":
                     {
-                        return VehiclePark.GetStatus();
+                        return VehiclePark.GetStatus(); break;
                     }
                 case "FindVehicle":
                     {
-                        return VehiclePark.FindVehicle(command.Parameters["licensePlate"]);
+                        return VehiclePark.FindVehicle(command.Parameters["licensePlate"]); break;
                     }
                 case "VehiclesByOwner":
                     {
-                        return VehiclePark.FindVehiclesByOwner(command.Parameters["owner"]);
+                        return VehiclePark.FindVehiclesByOwner(command.Parameters["owner"]); break;
                     }
                 default:
                     throw new IndexOutOfRangeException("Invalid command.");
 
             }
+        }
+
+        private string ExecuteParkTruck(ICommand command)
+        {
+            return VehiclePark.InsertTruck(
+                new Truck(command.Parameters["licensePlate"],
+                    command.Parameters["owner"], int.Parse(command.Parameters["hours"])),
+                int.Parse(command.Parameters["sector"]), int.Parse(command.Parameters["place"]),
+                DateTime.Parse(command.Parameters["time"], null,
+                    System.Globalization.DateTimeStyles.RoundtripKind));
+        }
+
+        private string ExecuteParkMotorbike(ICommand command)
+        {
+            return VehiclePark.InsertMotorbike(
+                new Motorbike(command.Parameters["licensePlate"],
+                    command.Parameters["owner"],
+                    int.Parse(command.Parameters["hours"])),
+                int.Parse(command.Parameters["sector"]),
+                int.Parse(command.Parameters["place"]),
+                DateTime.Parse(command.Parameters["time"], null, System.Globalization.DateTimeStyles.RoundtripKind));
+        }
+
+        private string ExecuteParkCar(ICommand command)
+        {
+            return VehiclePark.InsertCar(
+                new Car(command.Parameters["licensePlate"],
+                    command.Parameters["owner"],
+                    int.Parse(command.Parameters["hours"])),
+                int.Parse(command.Parameters["sector"]),
+                int.Parse(command.Parameters["place"]),
+                DateTime.Parse(command.Parameters["time"], null, System.Globalization.DateTimeStyles.RoundtripKind));
         }
     }
 }

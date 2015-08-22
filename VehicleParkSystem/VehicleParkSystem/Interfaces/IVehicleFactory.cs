@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace VehicleParkSystem.Interfaces
 {
-    interface IUserInterface
+    public interface IVehicleFactory
     {
-        string ReadLine();
-
-        void WriteLine(string format, params string[] args);
-
+        IVehicle GetVehicle(string licenseplate, string owner, int reservedHours);
     }
 }

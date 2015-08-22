@@ -1,8 +1,0 @@
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\vp_himineu.exe.config
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\vp_himineu.exe
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\vp_himineu.pdb
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\PowerCollections.dll
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\bin\Debug\PowerCollections.xml
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\obj\Debug\vp_himineu.csprojResolveAssemblyReference.cache
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\obj\Debug\vp_himineu.exe
-C:\Users\Stanislav\Desktop\Vehicle-park-system\vp_himineu\vp_himineu\obj\Debug\vp_himineu.pdb

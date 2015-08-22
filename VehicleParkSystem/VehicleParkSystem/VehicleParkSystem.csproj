@@ -47,19 +47,21 @@
   <ItemGroup>
     <Compile Include="Helpers\Constant.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
+    <Compile Include="Interfaces\IVehicleFactory.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Motorbike.cs" />
     <Compile Include="Models\Truck.cs" />
-    <Compile Include="DataVehiclePark.cs" />
+    <Compile Include="Data\DataVehiclePark.cs" />
     <Compile Include="Execution\Dispatcher.cs" />
     <Compile Include="Execution\Command.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
-    <Compile Include="Interfaces\IMechanism.cs" />
+    <Compile Include="Interfaces\IEngine.cs" />
     <Compile Include="Interfaces\IUserInterface.cs" />
     <Compile Include="Interfaces\IVehiclePark.cs" />
     <Compile Include="Layout.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInterface\UserInterface.cs" />
     <Compile Include="VehiclePark.cs" />
     <Compile Include="Execution\Engine.cs" />
     <Compile Include="VehicleParkSystemProgramm.cs" />
@@ -68,6 +70,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

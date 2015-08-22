@@ -1,19 +1,22 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using VehicleParkSystem.Interfaces;
-
-namespace VehicleParkSystem.Execution
+﻿namespace VehicleParkSystem.Execution
 {
+    using System;
+    using VehicleParkSystem.Interfaces;
+    using VehicleParkSystem.UserInterface;
+
     class Engine : IEngine
     {
         private Dispatcher dispatcher;
-        Engine(Dispatcher dispatcher)
+        private UserInterface userInterface;
+
+        Engine(Dispatcher dispatcher,UserInterface ui)
         {
             this.dispatcher = dispatcher;
+            this.userInterface = ui;
         }
 
         public Engine()
-            : this(new Dispatcher())
+            : this(new Dispatcher(), new UserInterface())
         {
         }
 
@@ -21,7 +24,7 @@ namespace VehicleParkSystem.Execution
         {
             while (true)
             {
-                string commandLine = Console.ReadLine();
+                string commandLine = this.userInterface.ReadLine();
 
                 if (!string.IsNullOrEmpty(commandLine))
                 {
@@ -30,11 +33,11 @@ namespace VehicleParkSystem.Execution
                         commandLine = commandLine.Trim();
                         var command = new Command(commandLine);
                         string commandResult = dispatcher.Execution(command);
-                        Console.WriteLine(commandResult);
+                        this.userInterface.WriteLine(commandResult);
                     }
-                    catch (Exception ex )
+                    catch (InvalidOperationException ex)
                     {
-                        Console.WriteLine(ex.Message, "Invalid command");
+                       this.userInterface.WriteLine(ex.Message, "Invalid command");
                     }
                 }
             }

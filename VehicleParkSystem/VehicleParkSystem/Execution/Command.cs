@@ -12,11 +12,29 @@ namespace VehicleParkSystem.Execution
     {
         public Command(string commandLine)
         {
-            this.Name = commandLine.Substring(0, commandLine.IndexOf(' '));
-            this.Parameters = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(commandLine.Substring(commandLine.IndexOf(' ') + 1));
+            this.ParseCommand(commandLine);
         }
-        public string Name { get; set; }
-        public IDictionary<string, string> Parameters { get; set; }
+
+        public string Name { get; private set; }
+
+        public IDictionary<string, string> Parameters { get; private set; }
+
+        private void ParseCommand(string commandLine)
+        {
+            int commandNameEnd = commandLine.IndexOf(' ');
+            string commandName = commandLine.Substring(0, commandNameEnd);
+            string commandParametersAsString = commandLine.Substring(commandNameEnd + 1);
+            var commandParameters = this.ParseCommandParameters(commandParametersAsString);
+            this.Name = commandName;
+            this.Parameters = commandParameters;
+        }
+
+        private IDictionary<string, string> ParseCommandParameters(string commandParametersAsString)
+        {
+            var serializer = new JavaScriptSerializer();
+            var parameters = serializer.Deserialize<Dictionary<string, string>>(commandParametersAsString);
+            return parameters;
+        }
 
     }
 }
